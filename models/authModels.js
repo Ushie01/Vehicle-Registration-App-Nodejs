@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 //Link Database Via Sequelize
-const sequelize = new Sequelize('roadlink_app', 'root', '', {
+const sequelize = new Sequelize('roadlink', 'root', '', {
   host: 'localhost',
   dialect: 'mysql'
 });
@@ -52,10 +52,10 @@ const tbl_users = sequelize.define('tbl_users', {
 });
 
 // Create the table if it doesn't exist
-(async () => {
-  await sequelize.sync({ force: false });
-  console.log('Table created or updated!');
-})();
+// (async () => {
+//   await sequelize.sync({ force: false });
+//   console.log('Table created or updated!');
+// })();
 
 module.exports = {
   tbl_users,

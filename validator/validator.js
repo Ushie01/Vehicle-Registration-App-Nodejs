@@ -24,13 +24,13 @@ const validateRegTable = Joi.object({
   vehicleType: Joi.string().required(),
   engineCapacity: Joi.string().required(),
   tankCapacity: Joi.string().required(),
-  notionalIdCard: Joi.string().required(),
-  ninImg: Joi.string().required(),
-  driverLicenseo: Joi.string().required()
-})
+  nationalId: Joi.string().required(),
+  nin: Joi.string().required(),
+  driverLicense: Joi.string().required()
+});
 
 module.exports = {
+  validateRegTable,
   validateLoginUser,
-  validateSignUpUser,
-  validateRegTable
+  validateSignUpUser
 };

@@ -1,6 +1,6 @@
 const { validateLoginUser, validateSignUpUser } = require('./../validator/validator');
 const bcrypt = require('bcrypt');
-const { tbl_users } = require('./../models/allModels');
+const { tbl_users } = require('../models/authModels');
 
 
 const signup = async (req, res) => {

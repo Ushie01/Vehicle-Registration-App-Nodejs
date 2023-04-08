@@ -1,13 +1,14 @@
 const { Sequelize, DataTypes } = require('sequelize');
+
+//Link Database Via Sequelize
 const sequelize = new Sequelize('roadlink_app', 'root', '', {
   host: 'localhost',
   dialect: 'mysql'
 });
 
-
 sequelize.authenticate().then(() => {
-  console.log('Connection to database is successful');
-}).catch((error) => console.log(error, 'Sorry, an error occurred while connecting to the database.'));
+  console.log(' connection to database is successful');
+}).catch((error) => console.log(error, ' sorry an eror'));
 
 // Defining the user table
 const tbl_users = sequelize.define('tbl_users', {
@@ -50,8 +51,14 @@ const tbl_users = sequelize.define('tbl_users', {
   }
 });
 
+// Create the table if it doesn't exist
+(async () => {
+  await sequelize.sync({ force: false });
+  console.log('Table created or updated!');
+})();
+
 module.exports = {
   tbl_users,
-  // sequelize, // export the sequelize object for use in other parts of the code
-  // DataTypes // export the DataTypes object for use in other parts of the code
+  sequelize, // export the sequelize object for use in other parts of the code
+  DataTypes // export the DataTypes object for use in other parts of the code
 };

@@ -1,0 +1,1 @@
+// const { vehicle_reg_tbl } = require('./../models/userModel');

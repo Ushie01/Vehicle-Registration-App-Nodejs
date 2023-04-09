@@ -2,6 +2,8 @@ const multer = require('multer');
 const fs = require('fs');
 const validateRegTable = require('./../validator/validator');
 const { vehicle_reg_tbl, license_reg_tbl } = require('../models/userModel');
+const { sequelize } = require('../models/authModels');
+const { QueryTypes } = require('sequelize');
 
 
 const storage = multer.diskStorage({
@@ -24,50 +26,62 @@ const multipleUpload = upload.fields([{ name: 'file1' }, { name: 'file2' }, { na
 
 const vehicleRegistration =  async (req, res) => {
   try {
-        // const { error } = validateRegTable.validate(req.body);
-        // if (error) {
-        //     return res.status(400).json({
-        //         message: error.details[0].message
-        //     });
-        // }
-        const randomNumber = Math.floor(Math.random() * 900) + 100;
-        const randomLetters = Math.random().toString(36).substring(2, 4).toUpperCase();
-        const {
-            vehicleCategory,
-            vehicleMake,
-            color,
-            model,
-            engineNumber,
-            vehicleType,
-            engineCapacity,
-            tankCapacity,
-        } = req.body;
-
-        const registerVehicle = vehicle_reg_tbl.build({
-            vehicleCategory,
-            vehicleMake,
-            color,
-            model,
-            engineNumber,
-            vehicleType,
-            engineCapacity,
-            tankCapacity,
-            nationalId: req.files.file1[0].filename,
-            nin: req.files.file2[0].filename,
-            driverLicense: req.files.file3[0].filename,
-            vehicleRegNo: `CRS-${randomNumber.toString() + randomLetters}`
+    // const { error } = validateRegTable.validate(req.body);
+    // if (error) {
+    //     return res.status(400).json({
+    //         message: error.details[0].message
+    //     });
+    // }
+    const randomNumber = Math.floor(Math.random() * 900) + 100;
+    const randomLetters = Math.random().toString(36).substring(2, 4).toUpperCase();
+    const status = 'false';
+    const {
+        vehicleCategory,
+        vehicleMake,
+        color,
+        model,
+        engineNumber,
+        vehicleType,
+        engineCapacity,
+        tankCapacity,
+        phoneNo
+    } = req.body;
+    const user = await vehicle_reg_tbl.findOne({ where: { phoneNo: phoneNo } });
+    if (user) {
+      return res
+        .status(403)
+        .json({
+          message: "User already exist with the provided phone number"
         });
+    } else {
+      const registerVehicle = vehicle_reg_tbl.build({
+          vehicleCategory,
+          vehicleMake,
+          color,
+          model,
+          engineNumber,
+          vehicleType,
+          engineCapacity,
+          tankCapacity,
+          phoneNo,
+          status,
+          nationalId: req.files.file1[0].filename,
+          nin: req.files.file2[0].filename,
+          driverLicense: req.files.file3[0].filename,
+          vehicleRegNo: `CRS-${randomNumber.toString() + randomLetters}`
+      });
 
-        await registerVehicle.save();
-        return res.status(200).json({ // fix typo and set HTTP status code
-            message: "Form successfully submitted",
-            data: registerVehicle
-        });
+      await registerVehicle.save();
+      return res.status(200).json({ // fix typo and set HTTP status code
+          message: "Form successfully submitted",
+          data: registerVehicle
+      }); 
+    }
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-          message: 'Internal server error'
-        });
+      console.error(error);
+      return res.status(500).json({
+        message: 'Internal server error'
+      });
     }
 };
 
@@ -81,12 +95,13 @@ const driverLicenseReg = async (req, res) => {
       city,
       state,
       phoneNo,
-      vehicleLicenseNo
+      vehicleRegNo
     } = req.body;
     const randomNumbers = Math.floor(Math.random() * 90000) + 10000; // generates a random number between 100 and 999
     const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
     const randomNumber = Math.floor(Math.random() * 9) + 1;
     const user = await license_reg_tbl.findOne({ where: { phoneNo: phoneNo } });
+    const status = 'false';
     if (user) {
       return res
         .status(403)
@@ -102,7 +117,8 @@ const driverLicenseReg = async (req, res) => {
         city,
         state,
         phoneNo,
-        vehicleLicenseNo,
+        status,
+        vehicleRegNo,
         drivingSchCert: req.file.filename,
         licenseRegNo: `CRS${randomNumbers.toString() + randomLetters + randomNumber.toString()}`
       });
@@ -120,6 +136,7 @@ const driverLicenseReg = async (req, res) => {
     });
   }
 }
+
 
 module.exports = {
   vehicleRegistration,

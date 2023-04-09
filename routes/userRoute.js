@@ -11,5 +11,4 @@ const router = express.Router();
 router.post('/vehicleRegistration', multipleUpload, vehicleRegistration);
 router.post('/driverLicenseRegistration', upload.single('file'), driverLicenseReg);
 
-
 module.exports = router;

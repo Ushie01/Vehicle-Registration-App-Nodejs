@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, QueryTypes } = require('sequelize');
 
 //Link Database Via Sequelize
 const sequelize = new Sequelize('roadlink', 'root', '', {
@@ -60,5 +60,6 @@ const tbl_users = sequelize.define('tbl_users', {
 module.exports = {
   tbl_users,
   sequelize, // export the sequelize object for use in other parts of the code
-  DataTypes // export the DataTypes object for use in other parts of the code
+  DataTypes, // export the DataTypes object for use in other parts of the code
+  QueryTypes
 };

@@ -12,7 +12,9 @@ const vehicle_reg_tbl = sequelize.define('vehicle_reg_tbl',{
    engineNumber:Sequelize.STRING,
    vehicleType:Sequelize.STRING,
    engineCapacity: Sequelize.STRING, 
-   tankCapacity:Sequelize.STRING,
+   tankCapacity: Sequelize.STRING,
+   phoneNo: Sequelize.STRING,
+   status: Sequelize.STRING,
    nationalId: Sequelize.STRING,
    nin: Sequelize.STRING,
    driverLicense: Sequelize.STRING,
@@ -29,8 +31,9 @@ const license_reg_tbl = sequelize.define('license_reg_tbl',{
    city:Sequelize.STRING,
    state: Sequelize.STRING,
    phoneNo:Sequelize.STRING,
-   vehicleLicenseNo: Sequelize.STRING, 
+   vehicleRegNo: Sequelize.STRING,
+   status: Sequelize.STRING,
    drivingSchCert: Sequelize.STRING,
-   licenseRegNo: Sequelize.STRING
+   licenseRegNo: Sequelize.STRING,
 }, {tableName:"license_reg_tbl"})
 module.exports = { vehicle_reg_tbl, license_reg_tbl };

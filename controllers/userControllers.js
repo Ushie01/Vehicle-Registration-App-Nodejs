@@ -73,10 +73,6 @@ const vehicleRegistration =  async (req, res) => {
 
 const driverLicenseReg = async (req, res) => {
   try {
-    const randomNumbers = Math.floor(Math.random() * 90000) + 10000; // generates a random number between 100 and 999
-    const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
-    const randomNumber = Math.floor(Math.random() * 9) + 1;
-    
     const {
       firstName,
       lastName,
@@ -87,25 +83,36 @@ const driverLicenseReg = async (req, res) => {
       phoneNo,
       vehicleLicenseNo
     } = req.body;
-    console.log(req.file);
-    const registerLicense = license_reg_tbl.build({
-      firstName,
-      lastName,
-      email,
-      homeAddress,
-      city,
-      state,
-      phoneNo,
-      vehicleLicenseNo,
-      drivingSchCert: req.file.filename,
-      licenseRegNo: `CRS${randomNumbers.toString() + randomLetters + randomNumber.toString()}`
-    });
-    // delete registerLicense
-    await registerLicense.save();
-    return res.status(200).json({
-      message: "Form successfully submitted",
-      data: registerLicense
-    }) 
+    const randomNumbers = Math.floor(Math.random() * 90000) + 10000; // generates a random number between 100 and 999
+    const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    const randomNumber = Math.floor(Math.random() * 9) + 1;
+    const user = await license_reg_tbl.findOne({ where: { phoneNo: phoneNo } });
+    if (user) {
+      return res
+        .status(403)
+        .json({
+          message: "User already exist with the provided phone number"
+        })
+    } else {
+      const registerLicense = license_reg_tbl.build({
+        firstName,
+        lastName,
+        email,
+        homeAddress,
+        city,
+        state,
+        phoneNo,
+        vehicleLicenseNo,
+        drivingSchCert: req.file.filename,
+        licenseRegNo: `CRS${randomNumbers.toString() + randomLetters + randomNumber.toString()}`
+      });
+      // delete registerLicense
+      await registerLicense.save();
+      return res.status(200).json({
+        message: "Form successfully submitted",
+        data: registerLicense
+      }) 
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({

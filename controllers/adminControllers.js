@@ -20,15 +20,43 @@ const adminApproval = async (req, res) => {
     }
 };
 
-// const getAllVehicleRegistration = async () => {
-//     try {
-//         const allVehicleRegistration = await sequelize.query()
-//     } catch (error) {
-//         console.error(error)
-//     }
-// }
+const getAllVehicleRegistration = async (req, res) => {
+    try {
+        const allVehicleRegistration = await sequelize.query(`SELECT * FROM license_reg_tbl`)
+        if (allVehicleRegistration.length > 0) {
+            return res.status(200).json({
+                allVehicleRegistration
+            });
+        } else {
+            return res.status(404).json({
+                message: 'No document found'
+            })
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const getAllDriverLicenseRegistration = async (req, res) => {
+    try {
+        const allLicenseReg = await sequelize.query(`SELECT * FROM license_reg_tbl`)
+        if (allLicenseReg.length > 0) {
+            return res.status(200).json({
+                allLicenseReg
+            });
+        } else {
+            return res.status(404).json({
+                message: 'No document found'
+            })
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 module.exports = {
     adminApproval,
+    getAllVehicleRegistration,
+    getAllDriverLicenseRegistration
 };
 

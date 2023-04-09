@@ -1,6 +1,5 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const multer = require('multer');
 const authRouter = require("./routes/authRoute");
 const userRouter = require("./routes/userRoute");
 

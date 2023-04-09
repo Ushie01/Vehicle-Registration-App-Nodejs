@@ -15,8 +15,10 @@ const vehicle_reg_tbl = sequelize.define('vehicle_reg_tbl',{
    tankCapacity:Sequelize.STRING,
    nationalId: Sequelize.STRING,
    nin: Sequelize.STRING,
-   driverLicense: Sequelize.STRING
+   driverLicense: Sequelize.STRING,
+   vehicleRegNo: Sequelize.STRING
 }, {tableName:"vehicle_reg_tbl"})
+
 
 
 module.exports = { vehicle_reg_tbl };

@@ -29,7 +29,8 @@ const license_reg_tbl = sequelize.define('license_reg_tbl',{
    city:Sequelize.STRING,
    state: Sequelize.STRING,
    phoneNo:Sequelize.STRING,
-   vehicleLicenseNumber: Sequelize.STRING, 
-   drivingSchCertificate:Sequelize.STRING
+   vehicleLicenseNo: Sequelize.STRING, 
+   drivingSchCert: Sequelize.STRING,
+   licenseRegNo: Sequelize.STRING
 }, {tableName:"license_reg_tbl"})
 module.exports = { vehicle_reg_tbl, license_reg_tbl };

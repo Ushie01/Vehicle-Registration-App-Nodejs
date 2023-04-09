@@ -1,7 +1,7 @@
 const multer = require('multer');
 const fs = require('fs');
 const validateRegTable = require('./../validator/validator');
-const { vehicle_reg_tbl } = require('../models/userModel');
+const { vehicle_reg_tbl, license_reg_tbl } = require('../models/userModel');
 
 
 const storage = multer.diskStorage({
@@ -32,7 +32,6 @@ const vehicleRegistration =  async (req, res) => {
         // }
         const randomNumber = Math.floor(Math.random() * 900) + 100;
         const randomLetters = Math.random().toString(36).substring(2, 4).toUpperCase();
-        console.log(randomNumber,randomLetters);
         const {
             vehicleCategory,
             vehicleMake,
@@ -66,8 +65,58 @@ const vehicleRegistration =  async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({
+          message: 'Internal server error'
+        });
     }
 };
 
-module.exports = { vehicleRegistration, multipleUpload };
+const driverLicenseReg = async (req, res) => {
+  try {
+    const randomNumbers = Math.floor(Math.random() * 90000) + 10000; // generates a random number between 100 and 999
+    const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    const randomNumber = Math.floor(Math.random() * 9) + 1;
+    
+    const {
+      firstName,
+      lastName,
+      email,
+      homeAddress,
+      city,
+      state,
+      phoneNo,
+      vehicleLicenseNo
+    } = req.body;
+    console.log(req.file);
+    const registerLicense = license_reg_tbl.build({
+      firstName,
+      lastName,
+      email,
+      homeAddress,
+      city,
+      state,
+      phoneNo,
+      vehicleLicenseNo,
+      drivingSchCert: req.file.filename,
+      licenseRegNo: `CRS${randomNumbers.toString() + randomLetters + randomNumber.toString()}`
+    });
+    // delete registerLicense
+    await registerLicense.save();
+    return res.status(200).json({
+      message: "Form successfully submitted",
+      data: registerLicense
+    }) 
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Internal server error'
+    });
+  }
+}
+
+module.exports = {
+  vehicleRegistration,
+  upload,
+  multipleUpload,
+  driverLicenseReg
+};

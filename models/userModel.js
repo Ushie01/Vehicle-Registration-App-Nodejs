@@ -20,5 +20,16 @@ const vehicle_reg_tbl = sequelize.define('vehicle_reg_tbl',{
 }, {tableName:"vehicle_reg_tbl"})
 
 
-
-module.exports = { vehicle_reg_tbl };
+//  Defining the driver license registration table
+const license_reg_tbl = sequelize.define('license_reg_tbl',{
+   firstName:Sequelize.STRING,
+   lastName:Sequelize.STRING,
+   email:Sequelize.STRING,
+   homeAddress: Sequelize.STRING,
+   city:Sequelize.STRING,
+   state: Sequelize.STRING,
+   phoneNo:Sequelize.STRING,
+   vehicleLicenseNumber: Sequelize.STRING, 
+   drivingSchCertificate:Sequelize.STRING
+}, {tableName:"license_reg_tbl"})
+module.exports = { vehicle_reg_tbl, license_reg_tbl };

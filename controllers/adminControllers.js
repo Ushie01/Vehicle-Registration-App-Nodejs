@@ -1,12 +1,12 @@
 const { sequelize, QueryTypes } = require('./../models/authModels');
-const adminApproval = async (req, res) => {
+
+const vehicleApproval = async (req, res) => {
     try {
         const { phoneNo, status } = req.body;
         const approveUserDocument = await sequelize.query(
             'UPDATE `license_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
             { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
         );
-
         return res.status(200).json({
             message: 'User document has been successfully approved',
             data: approveUserDocument,
@@ -20,9 +20,29 @@ const adminApproval = async (req, res) => {
     }
 };
 
+const licenseApproval = async (req, res) => {
+    try {
+        const { phoneNo, status } = req.body;
+        const approveUserDocument = await sequelize.query(
+            'UPDATE `vehicle_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
+            { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
+        );
+        return res.status(200).json({
+            message: 'User document has been successfully approved',
+            data: approveUserDocument,
+        });      
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: 'An error occurred while approving user document',
+            error: error.message,
+        });  
+    }
+}
+
 const getAllVehicleRegistration = async (req, res) => {
     try {
-        const allVehicleRegistration = await sequelize.query(`SELECT * FROM license_reg_tbl`)
+        const allVehicleRegistration = await sequelize.query(`SELECT * FROM vehicle_reg_tbl`)
         if (allVehicleRegistration.length > 0) {
             return res.status(200).json({
                 allVehicleRegistration
@@ -33,7 +53,10 @@ const getAllVehicleRegistration = async (req, res) => {
             })
         }
     } catch (error) {
-        console.error(error)
+        console.error(error);
+        return res.status(501).json({
+            message: "Internal server error"
+        })
     }
 }
 
@@ -50,12 +73,16 @@ const getAllDriverLicenseRegistration = async (req, res) => {
             })
         }
     } catch (error) {
-        console.error(error)
+        console.error(error);
+        return res.status(501).json({
+            message: "Internal server error"
+        })
     }
 }
 
 module.exports = {
-    adminApproval,
+    licenseApproval,
+    vehicleApproval,
     getAllVehicleRegistration,
     getAllDriverLicenseRegistration
 };

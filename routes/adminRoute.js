@@ -1,17 +1,17 @@
 const express = require('express');
 const { 
-    adminApproval,
+    vehicleApproval,
+    licenseApproval,
     getAllVehicleRegistration,
     getAllDriverLicenseRegistration
 } = require('./../controllers/adminControllers');
 
 const router = express.Router();
 // auth route
-router.patch('/userDocumentApproval', adminApproval);
-router.get('/',
-    getAllVehicleRegistration,
-    getAllDriverLicenseRegistration
-)
+router.patch('/userVehicleApproval', vehicleApproval);
+router.patch('/userLicenseApproval', licenseApproval);
+router.get('/allVehicleReg', getAllVehicleRegistration);
+router.get('/allLicenseReg', getAllDriverLicenseRegistration)
 
 // user 
 module.exports = router;

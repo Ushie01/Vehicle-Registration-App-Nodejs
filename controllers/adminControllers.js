@@ -4,7 +4,7 @@ const vehicleApproval = async (req, res) => {
     try {
         const { phoneNo, status } = req.body;
         const approveUserDocument = await sequelize.query(
-            'UPDATE `license_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
+            'UPDATE `vehicle_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
             { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
         );
         return res.status(200).json({
@@ -24,7 +24,7 @@ const licenseApproval = async (req, res) => {
     try {
         const { phoneNo, status } = req.body;
         const approveUserDocument = await sequelize.query(
-            'UPDATE `vehicle_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
+            'UPDATE `license_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
             { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
         );
         return res.status(200).json({
@@ -43,9 +43,10 @@ const licenseApproval = async (req, res) => {
 const getAllVehicleRegistration = async (req, res) => {
     try {
         const allVehicleRegistration = await sequelize.query(`SELECT * FROM vehicle_reg_tbl`)
-        if (allVehicleRegistration.length > 0) {
+        const finalResult = Object.assign([], ...allVehicleRegistration);
+        if (finalResult.length > 0) {
             return res.status(200).json({
-                allVehicleRegistration
+                finalResult
             });
         } else {
             return res.status(404).json({
@@ -63,9 +64,10 @@ const getAllVehicleRegistration = async (req, res) => {
 const getAllDriverLicenseRegistration = async (req, res) => {
     try {
         const allLicenseReg = await sequelize.query(`SELECT * FROM license_reg_tbl`)
-        if (allLicenseReg.length > 0) {
+        const finalResult = Object.assign([], ...allLicenseReg);
+        if (finalResult.length > 0) {
             return res.status(200).json({
-                allLicenseReg
+                finalResult
             });
         } else {
             return res.status(404).json({

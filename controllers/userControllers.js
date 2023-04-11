@@ -24,6 +24,54 @@ const upload = multer({ storage });
 const multipleUpload = upload.fields([{ name: 'file1' }, { name: 'file2' }, { name: 'file3' }])
 
 
+// get single user vehicle document
+const getSingleVehDoc = async (req, res) => {
+  try {
+    const results = await sequelize.query('SELECT * FROM vehicle_reg_tbl WHERE vehicleRegNo = :vehicleRegNo', {
+      replacements: { vehicleRegNo: req.body.vehicleRegNo },
+      type: QueryTypes.SELECT,
+      nest: true // optional, returns a nested object instead of a flat array
+    });
+     console.log(results);
+    if (results) {
+      res.status(200).json({
+        results
+      });
+    } else {
+      res.status(404).json({
+        message: 'No product found for the given product ID'
+      });
+    }
+   
+    } catch (err) {
+      res.send({ message: err });
+    }
+};
+
+// get single user license document
+const getSingleLicDoc = async (req, res) => {
+  try {
+    const results = await sequelize.query('SELECT * FROM license_reg_tbl WHERE licenseRegNo = :licenseRegNo', {
+      replacements: { licenseRegNo: req.body.licenseRegNo },
+      type: QueryTypes.SELECT,
+      nest: true // optional, returns a nested object instead of a flat array
+    });
+     console.log(results);
+    if (results) {
+      res.status(200).json({
+        results
+      });
+    } else {
+      res.status(404).json({
+        message: 'No product found for the given product ID'
+      });
+    }
+   
+    } catch (err) {
+      res.send({ message: err });
+    }
+};
+
 const vehicleRegistration =  async (req, res) => {
   try {
     // const { error } = validateRegTable.validate(req.body);
@@ -36,15 +84,15 @@ const vehicleRegistration =  async (req, res) => {
     const randomLetters = Math.random().toString(36).substring(2, 4).toUpperCase();
     const status = 'false';
     const {
-        vehicleCategory,
-        vehicleMake,
-        color,
-        model,
-        engineNumber,
-        vehicleType,
-        engineCapacity,
-        tankCapacity,
-        phoneNo
+      vehicleCategory,
+      vehicleMake,
+      color,
+      model,
+      engineNumber,
+      vehicleType,
+      engineCapacity,
+      tankCapacity,
+      phoneNo
     } = req.body;
     const user = await vehicle_reg_tbl.findOne({ where: { phoneNo: phoneNo } });
     if (user) {
@@ -142,5 +190,7 @@ module.exports = {
   vehicleRegistration,
   upload,
   multipleUpload,
-  driverLicenseReg
+  driverLicenseReg,
+  getSingleVehDoc,
+  getSingleLicDoc
 };

@@ -11,10 +11,10 @@ const signup = async (req, res) => {
                 message: error.details[0].message
             });
         }
-        const { firstName, lastName, email, phoneNo, role } = req.body;
+        const { firstName, lastName, email, phoneNo } = req.body;
         const password = await bcrypt.hash(req.body.password, 10);
-        // const randomNumber = Math.floor(Math.random() * 900000 + 100000)
         const recordExist = await tbl_users.findOne({ where: { email: email } });
+        const role = 'user';
 
         if (recordExist) {
             return res.status(403).json({message: "Email already exist!"})

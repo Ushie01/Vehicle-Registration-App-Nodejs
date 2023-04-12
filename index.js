@@ -13,7 +13,27 @@ app.use(express.urlencoded({ extended: false }));
 // }));
 // Start file upload using multer
 //implement CORS
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+// const cors=require("cors");
+// const corsOptions ={
+//    origin:'*', 
+//    credentials:true,            //access-control-allow-credentials:true
+//    optionSuccessStatus:200,
+// }
+
+// app.use(cors(corsOptions)) 
+
 app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);

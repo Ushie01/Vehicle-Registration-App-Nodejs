@@ -27,8 +27,8 @@ const multipleUpload = upload.fields([{ name: 'file1' }, { name: 'file2' }, { na
 // get single user vehicle document
 const getSingleVehDoc = async (req, res) => {
   try {
-    const results = await sequelize.query('SELECT * FROM vehicle_reg_tbl WHERE vehicleRegNo = :vehicleRegNo', {
-      replacements: { vehicleRegNo: req.body.vehicleRegNo },
+    const results = await sequelize.query('SELECT * FROM vehicle_reg_tbl WHERE phoneNo = :phoneNo', {
+      replacements: { phoneNo: req.body.phoneNo },
       type: QueryTypes.SELECT,
       nest: true // optional, returns a nested object instead of a flat array
     });

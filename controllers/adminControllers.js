@@ -2,7 +2,7 @@ const { sequelize, QueryTypes } = require('./../models/authModels');
 
 const vehicleApproval = async (req, res) => {
     try {
-        const { phoneNo, status } = req.body;
+        const { phoneNo, status } = req.params;
         const approveUserDocument = await sequelize.query(
             'UPDATE `vehicle_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
             { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
@@ -22,7 +22,7 @@ const vehicleApproval = async (req, res) => {
 
 const licenseApproval = async (req, res) => {
     try {
-        const { phoneNo, status } = req.body;
+        const { phoneNo, status } = req.params;
         const approveUserDocument = await sequelize.query(
             'UPDATE `license_reg_tbl` SET `status`=:status WHERE `phoneNo`=:phoneNo',
             { replacements: { phoneNo, status }, type: QueryTypes.UPDATE }
@@ -85,37 +85,28 @@ const getAllDriverLicenseRegistration = async (req, res) => {
 const deleteUserVehicleFile = async (req, res) => {
     try {
         const result = await sequelize.query('DELETE FROM vehicle_reg_tbl WHERE phoneNo = :phoneNo', {
-            replacements: { phoneNo: req.body.phoneNo },
+            replacements: { phoneNo: req.params.phoneNo },
             type: QueryTypes.DELETE,
             nest: true
         });
 
         if (!result) {
-            res.setHeader(
-                'Access-Control-Allow-Origin', '*',
-                'Vary', "Origin",
-                'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE',
-                'Access-Control-Allow-Headers', 'Content-Type, Authorization',
-                'Content-Type', 'application/json; charset=utf-8' 
-            );
             res.status(200).json({
                 message: 'Document deleted successfully'
             });
         } else {
-            res.setHeader('Access-Control-Allow-Origin', '*');
             res.status(404).json({
                 message: 'Document found for the given role phone number'
             });
         }
-        
     } catch (error) {
         console.error(error);
-        res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(500).json({
             message: 'Internal server error'
         });
     }
 }
+
 
 const deleteUserLicenseFile = async (req, res) => {
     try {
@@ -124,8 +115,6 @@ const deleteUserLicenseFile = async (req, res) => {
             type: QueryTypes.DELETE,
             nest: true
         });
-
-        console.log(req.params.phoneNo);
 
         if (!result) {
             res.status(200).json({

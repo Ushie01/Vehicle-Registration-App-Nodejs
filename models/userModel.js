@@ -31,7 +31,6 @@ const license_reg_tbl = sequelize.define('license_reg_tbl',{
    city:Sequelize.STRING,
    state: Sequelize.STRING,
    phoneNo:Sequelize.STRING,
-   vehicleRegNo: Sequelize.STRING,
    status: Sequelize.STRING,
    drivingSchCert: Sequelize.STRING,
    licenseRegNo: Sequelize.STRING,

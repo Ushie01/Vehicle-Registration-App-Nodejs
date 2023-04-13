@@ -142,8 +142,7 @@ const driverLicenseReg = async (req, res) => {
       homeAddress,
       city,
       state,
-      phoneNo,
-      vehicleRegNo
+      phoneNo
     } = req.body;
     const randomNumbers = Math.floor(Math.random() * 90000) + 10000; // generates a random number between 100 and 999
     const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
@@ -166,7 +165,6 @@ const driverLicenseReg = async (req, res) => {
         state,
         phoneNo,
         status,
-        vehicleRegNo,
         drivingSchCert: req.file.filename,
         licenseRegNo: `CRS${randomNumbers.toString() + randomLetters + randomNumber.toString()}`
       });

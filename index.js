@@ -8,12 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(helmet({
-//     crossOriginResourcePolicy: false,
-// }));
-// Start file upload using multer
-//implement CORS
-// app.use(cors());
+
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
@@ -25,15 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// const cors=require("cors");
-// const corsOptions ={
-//    origin:'*', 
-//    credentials:true,            //access-control-allow-credentials:true
-//    optionSuccessStatus:200,
-// }
-
 // app.use(cors(corsOptions)) 
-
 app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);

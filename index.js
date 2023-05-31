@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require('cors');
 const jwt = require("jsonwebtoken");
 const { exec } = require('child_process');
-const authRouter = require("./routes/authRoute");
-const userRouter = require("./routes/userRoute");
-const adminRouter = require("./routes/adminRoute")
+const authRouter = require("./src/routes/authRoute");
+const userRouter = require("./src/routes/userRoute");
+const adminRouter = require("./src/routes/adminRoute")
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

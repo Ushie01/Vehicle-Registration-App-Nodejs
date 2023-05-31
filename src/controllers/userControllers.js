@@ -1,6 +1,6 @@
 const multer = require('multer');
 const fs = require('fs');
-const validateRegTable = require('./../validator/validator');
+// const validateRegTable = require('../validator/validator');
 const { vehicle_reg_tbl, license_reg_tbl } = require('../models/userModel');
 const { sequelize } = require('../models/authModels');
 const { QueryTypes } = require('sequelize');

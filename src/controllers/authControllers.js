@@ -1,4 +1,4 @@
-const { validateLoginUser, validateSignUpUser } = require('./../validator/validator');
+const { validateLoginUser, validateSignUpUser } = require('../validator/validator');
 const bcrypt = require('bcrypt');
 const { tbl_users } = require('../models/authModels');
 

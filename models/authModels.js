@@ -1,12 +1,15 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 
 const sequelize = new Sequelize({
   dialect: 'mysql',
-  host: 'bravtwfezvtpndsbuvpe-mysql.services.clever-cloud.com',
-  port: '3306',
-  username: 'u4bns7dskz3lew9u',
-  password: 'OprvzPZftxnjjdXyXgkL',
-  database: 'bravtwfezvtpndsbuvpe'
+  host: process.env.DB_HOST,
+  port: process.env.POST,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DBNAME
 });
 
 // Defining the user table

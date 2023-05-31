@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const jwt = require("jsonwebtoken");
+const { exec } = require('child_process');
 const authRouter = require("./routes/authRoute");
 const userRouter = require("./routes/userRoute");
 const adminRouter = require("./routes/adminRoute")
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 
 // app.use(cors(corsOptions)) 
 app.use('/uploads', express.static('uploads'));
+app.use('/phpmyadmin', express.static('phpmyadmin'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter)

@@ -74,12 +74,6 @@ const getSingleLicDoc = async (req, res) => {
 
 const vehicleRegistration =  async (req, res) => {
   try {
-    // const { error } = validateRegTable.validate(req.body);
-    // if (error) {
-    //     return res.status(400).json({
-    //         message: error.details[0].message
-    //     });
-    // }
     const randomNumber = Math.floor(Math.random() * 900) + 100;
     const randomLetters = Math.random().toString(36).substring(2, 4).toUpperCase();
     const status = 'false';

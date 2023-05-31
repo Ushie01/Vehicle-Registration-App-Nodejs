@@ -1,14 +1,13 @@
-const { Sequelize, DataTypes, QueryTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
-//Link Database Via Sequelize
-const sequelize = new Sequelize('roadlink', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql'
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  host: 'bravtwfezvtpndsbuvpe-mysql.services.clever-cloud.com',
+  port: '3306',
+  username: 'u4bns7dskz3lew9u',
+  password: 'OprvzPZftxnjjdXyXgkL',
+  database: 'bravtwfezvtpndsbuvpe'
 });
-
-sequelize.authenticate().then(() => {
-  console.log(' connection to database is successful');
-}).catch((error) => console.log(error, ' sorry an eror'));
 
 // Defining the user table
 const tbl_users = sequelize.define('tbl_users', {
@@ -51,15 +50,19 @@ const tbl_users = sequelize.define('tbl_users', {
   }
 });
 
-// Create the table if it doesn't exist
-// (async () => {
-//   await sequelize.sync({ force: false });
-//   console.log('Table created or updated!');
-// })();
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connected to the database successfully.');
+    await sequelize.sync({ force: false });
+    console.log('Models synced with the database.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
 
 module.exports = {
   tbl_users,
-  sequelize, // export the sequelize object for use in other parts of the code
-  DataTypes, // export the DataTypes object for use in other parts of the code
-  QueryTypes
+  sequelize,
+  DataTypes
 };

@@ -11,7 +11,8 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use(cors({
-  origin: 'http://localhost:3000'
+  // origin: 'http://localhost:3000'
+   origin: 'https://vr-api.vercel.app'
 }));
 
 app.use((req, res, next) => {

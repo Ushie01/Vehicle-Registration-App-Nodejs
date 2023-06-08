@@ -9,7 +9,8 @@ const sequelize = new Sequelize({
   port: process.env.POST,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DBNAME
+  database: process.env.DB_DBNAME,
+  dialectModule: require('mysql2'),
 });
 
 // Defining the user table

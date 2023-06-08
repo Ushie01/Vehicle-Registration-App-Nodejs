@@ -17,7 +17,8 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-index.use(cors(corsOptions));
+app.use(cors(corsOptions));
+
 
 // app.use(cors(corsOptions)) 
 app.use('/uploads', express.static('uploads'));
